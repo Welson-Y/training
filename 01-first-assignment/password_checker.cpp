@@ -1,9 +1,21 @@
+/*
+1. 变量check没有被使用，应该删除。
+2. 检查密码部分数字属于字符串类型，应使用ASCII值。"0"-> "'0'"
+3. 检查密码部分应包含首尾字符。'<' -> '<='
+
+测试：1. test Name Password1
+     2. Name firstname mynameA1
+     3. Name firstname myNameA1
+输出：1. VALID
+     2. VALID
+     3. INVALID
+*/
 #include <iostream>
 #include <string>
 
 bool contains_between(const std::string& text, char lower, char upper) {
     for (char ch : text) {
-        if (lower < ch && ch < upper) {
+        if (lower <= ch && ch <= upper) {
             return true;
         }
     }
@@ -16,10 +28,9 @@ bool check_password(const std::string& first_name,
     bool length_ok = password.size() <= 10;
     bool upper_ok = contains_between(password, 'A', 'Z');
     bool lower_ok = contains_between(password, 'a', 'z');
-    bool digit_ok = contains_between(password, 0, 9);
+    bool digit_ok = contains_between(password, '0', '9');
     bool name_ok = password.find(first_name) == std::string::npos &&
                    password.find(last_name) == std::string::npos;
-    int checked = 0;
     return length_ok && upper_ok && lower_ok && digit_ok && name_ok;
 }
 
